@@ -34,4 +34,10 @@ public class GreetingService implements IGreetingService {
 	public List<Greeting> getAllGreetings() {
 		return greetingRepository.findAll();
 	}
+
+	@Override
+	public Greeting editGreetingById(long id, User user) {
+		String message = (user.toString().isEmpty()) ? "Hello World" : String.format(template, user.toString());
+		return greetingRepository.save(new Greeting(id, String.format(message)));
+	}
 }

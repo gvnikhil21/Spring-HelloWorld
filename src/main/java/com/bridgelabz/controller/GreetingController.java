@@ -1,6 +1,7 @@
 package com.bridgelabz.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,12 @@ public class GreetingController {
 	private IGreetingService greetingService;
 
 	@GetMapping(value = { "", "/", "/home" })
-	public Greeting greeting(@RequestParam(value = "fName", defaultValue = "") String fName,
+	public String greeting() {
+		return "<h2>Welcome to Home Page!</h2>";
+	}
+
+	@GetMapping(value = "/add")
+	public Greeting addGreeting(@RequestParam(value = "fName", defaultValue = "") String fName,
 			@RequestParam(value = "lName", defaultValue = "") String lName) {
 		User user = new User();
 		user.setFirstName(fName);
@@ -29,12 +35,33 @@ public class GreetingController {
 	}
 
 	@GetMapping(value = "/get")
-	public Optional<Greeting> greeting(@RequestParam(value = "id", defaultValue = "0l") Long id) {
-		return greetingService.getGreetingById(id);
+	public Optional<Greeting> getGreeting(@RequestParam(value = "id", defaultValue = "") Long id) {
+		try {
+			return greetingService.getGreetingById(id);
+		} catch (NullPointerException | NoSuchElementException e) {
+			return Optional.empty();
+		}
 	}
-	
-	@GetMapping(value="/getAll")
-	public List<Greeting>greeting(){
+
+	@GetMapping(value = "/getAll")
+	public List<Greeting> getAllGreeting() {
 		return greetingService.getAllGreetings();
+	}
+
+	@GetMapping(value = "/edit")
+	public String editGreeting(@RequestParam(value = "id", defaultValue = "") Long id,
+			@RequestParam(value = "fName", defaultValue = "") String fName,
+			@RequestParam(value = "lName", defaultValue = "") String lName) {
+		try {
+			greetingService.getGreetingById(id);
+		} catch (NullPointerException | NoSuchElementException e) {
+			return "<center><h2><font color=red>Not Updated!</font></h2></center>";
+		}
+		User user = new User();
+		user.setFirstName(fName);
+		user.setLastName(lName);
+		Greeting editedGreeting = greetingService.editGreetingById(id, user);
+		return "<center>Greeting message with id: " + id + " updated.<br>Updated Greeting: "
+				+ editedGreeting.getMessage() + "</center>";
 	}
 }
