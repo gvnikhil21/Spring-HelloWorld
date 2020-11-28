@@ -40,4 +40,9 @@ public class GreetingService implements IGreetingService {
 		String message = (user.toString().isEmpty()) ? "Hello World" : String.format(template, user.toString());
 		return greetingRepository.save(new Greeting(id, String.format(message)));
 	}
+
+	@Override
+	public void deleteGreetingById(long id) {
+		greetingRepository.deleteById(id);
+	}
 }

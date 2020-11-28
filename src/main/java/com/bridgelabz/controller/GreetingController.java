@@ -64,4 +64,17 @@ public class GreetingController {
 		return "<center>Greeting message with id: " + id + " updated.<br>Updated Greeting: "
 				+ editedGreeting.getMessage() + "</center>";
 	}
+
+	@GetMapping(value = "/delete")
+	public String deleteGreeting(@RequestParam(value = "id", defaultValue = "") Long id) {
+		Optional<Greeting> greetingObj;
+		try {
+			greetingObj = greetingService.getGreetingById(id);
+		} catch (NullPointerException | NoSuchElementException e) {
+			return "<center><h2><font color=red>Not Deleted!</font></h2></center>";
+		}
+		greetingService.deleteGreetingById(id);
+		return "<center>Greeting message with id: " + id + " deleted.<br>Deleted Greeting: "
+				+ greetingObj.get().getMessage() + "</center>";
+	}
 }
