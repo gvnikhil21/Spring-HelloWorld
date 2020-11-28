@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "GREETINGS")
 public class Greeting {
-	// variables
+	// variable
 	@Id
 	private final long id;
 	private final String name;
