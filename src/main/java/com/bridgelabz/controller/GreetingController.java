@@ -1,5 +1,7 @@
 package com.bridgelabz.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +25,10 @@ public class GreetingController {
 		user.setFirstName(fName);
 		user.setLastName(lName);
 		return greetingService.addGreeting(user);
+	}
+
+	@GetMapping(value = "/get")
+	public Optional<Greeting> greeting(@RequestParam(value = "id", defaultValue = "0l") Long id) {
+		return greetingService.getGreetingById(id);
 	}
 }
