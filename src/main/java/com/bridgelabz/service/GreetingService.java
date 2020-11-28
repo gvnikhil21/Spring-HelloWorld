@@ -1,5 +1,6 @@
 package com.bridgelabz.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -20,12 +21,17 @@ public class GreetingService implements IGreetingService {
 
 	@Override
 	public Greeting addGreeting(User user) {
-		String name = (user.toString().isEmpty()) ? "Hello World" : String.format(template, user.toString());
-		return greetingRepository.save(new Greeting(counter.incrementAndGet(), String.format(name)));
+		String message = (user.toString().isEmpty()) ? "Hello World" : String.format(template, user.toString());
+		return greetingRepository.save(new Greeting(counter.incrementAndGet(), String.format(message)));
 	}
 
 	@Override
 	public Optional<Greeting> getGreetingById(long id) {
 		return Optional.ofNullable(greetingRepository.findById(id)).get();
+	}
+
+	@Override
+	public List<Greeting> getAllGreetings() {
+		return greetingRepository.findAll();
 	}
 }

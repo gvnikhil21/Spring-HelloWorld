@@ -10,17 +10,17 @@ public class Greeting {
 	// variable
 	@Id
 	private final long id;
-	private final String name;
+	private final String message;
 
 	// constructor
 	public Greeting() {
 		id = 0;
-		name = "";
+		message = "";
 	}
 
-	public Greeting(long id, String name) {
+	public Greeting(long id, String message) {
 		this.id = id;
-		this.name = name;
+		this.message = message;
 	}
 
 	// getters
@@ -28,7 +28,7 @@ public class Greeting {
 		return id;
 	}
 
-	public String getName() {
-		return name;
+	public String getMessage() {
+		return message;
 	}
 }
